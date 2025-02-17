@@ -81,6 +81,7 @@ export const checkAuth = createAsyncThunk(
     "/auth/checkauth",
 
     async (token) => {
+        console.log(token, "token");
         const response = await axios.get(
             `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
             {
@@ -126,8 +127,6 @@ const authSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                console.log(action);
-
                 state.isLoading = false;
                 state.user = action.payload.success ? action.payload.user : null;
                 state.isAuthenticated = action.payload.success;
