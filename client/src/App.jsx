@@ -22,8 +22,11 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem('token'));
-    dispatch(checkAuth(token));
+    // const token = JSON.parse(sessionStorage.getItem('token'));
+
+    const token = sessionStorage.getItem('token');
+    const parsedToken = token ? JSON.parse(token) : null;
+    dispatch(checkAuth(parsedToken));
   }, [dispatch]);
 
   if (isLoading) {
