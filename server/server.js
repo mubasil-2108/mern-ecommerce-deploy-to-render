@@ -33,7 +33,14 @@ const PORT = process.env.PORT || 5000
 
 app.use(
     cors({
-        origin: process.env.CLIENT_BASE_URL,
+        origin: function (origin, callback) {
+            if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+                callback(null, true); // Allow the origin
+            } else {
+                callback(new Error('Not allowed by CORS')); // Block the origin
+            }
+        },
+        // process.env.CLIENT_BASE_URL,
         methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: [
             'Content-Type',
