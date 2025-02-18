@@ -30,21 +30,10 @@ mongoose.connect(process.env.MONGO_URL)
 
 const app = express()
 const PORT = process.env.PORT || 5000
-const allowedOrigins = [
-    process.env.CLIENT_BASE_URL,
-    process.env.CLIENT_URL,
-];
 
 app.use(
     cors({
-        origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
-        // process.env.CLIENT_BASE_URL,
+        origin: process.env.CLIENT_BASE_URL,
         methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: [
             'Content-Type',
