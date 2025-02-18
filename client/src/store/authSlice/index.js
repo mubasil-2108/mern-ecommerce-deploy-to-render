@@ -80,13 +80,18 @@ export const logoutUser = createAsyncThunk(
 export const checkAuth = createAsyncThunk(
     "/auth/checkauth",
 
-    async (token) => {
-        console.log(token, "token");
+    async () => {
+        const token = sessionStorage.getItem('token');
+        const parsedToken = token ? JSON.parse(token) : null;
+
+        if (!parsedToken) {
+            throw new Error("No token found");
+        }
         const response = await axios.get(
             `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${parsedToken}`,
                     "Cache-Control":
                         "no-store, no-cache, must-revalidate, proxy-revalidate",
                 },
@@ -101,11 +106,11 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setUser: (state, action) => {},
+        setUser: (state, action) => { },
         resetTokenAndCredentials: (state) => {
-         state.isAuthenticated = false;
-         state.user = null;
-         state.token = null;   
+            state.isAuthenticated = false;
+            state.user = null;
+            state.token = null;
         }
     },
     extraReducers: (builder) => {
