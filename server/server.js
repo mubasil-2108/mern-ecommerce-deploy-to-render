@@ -33,13 +33,7 @@ const PORT = process.env.PORT || 5000
 
 app.use(
     cors({
-        origin: function (origin, callback) {
-            if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-                callback(null, true); // Allow the origin
-            } else {
-                callback(new Error('Not allowed by CORS')); // Block the origin
-            }
-        },
+        origin: process.env.CLIENT_BASE_URL,
         // process.env.CLIENT_BASE_URL,
         methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: [
@@ -50,6 +44,8 @@ app.use(
             'Pragma',
         ],
         credentials: true,
+        preflightContinue: false,
+        optionsSuccessStatus: 204
     })
 )
 
@@ -67,6 +63,18 @@ app.use("/api/shop/search", shopSearchRouter);
 app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
+
+app.get('/', (req, res) => {
+    res.send('Backend is running 🚀');
+});
+
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
