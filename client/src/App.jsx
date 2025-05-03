@@ -37,7 +37,7 @@ function App() {
     <div className="flex flex-col overflow-hidden bg-white">
       {/* common component */}
       <Routes>
-      <Route path='/' />
+      {/* <Route path='/' /> */}
         <Route path='/' element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
           </CheckAuth>
