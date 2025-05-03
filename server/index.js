@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const path = require('path');
 
 const authRouter = require('./routes/auth');
 const adminProductsRouter = require('./routes/admin/productsRoutes');
